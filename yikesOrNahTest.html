@@ -1927,7 +1927,12 @@ yikes_or_nah.tweakAllowPhrases = [
   "we should fuck",
   "can I fuck you?",
   "can you fuck me?",
-  "eat my ass please"
+  "eat my ass please",
+  "try finger in butt hold",
+  "eat my ass",
+  "I love asians",
+  "I love black people",
+  "indians cook well"
 ];
 yikes_or_nah.tweakDisallowPhrases = [
   "I fucking hate you",
@@ -1940,16 +1945,17 @@ yikes_or_nah.tweakDisallowPhrases = [
   "you're a cunt",
   "you are a moron",
   "you are a stupid whore",
-  "I'll fuck your ass",
   "you are so fucking stupid",
   "you are a fag",
   "fuck fuck shitbag fuck fuck",
   "fucking nigger",
   "nigger",
+  "I'll rape you",
   "I hate jews",
   "I hate fags",
   "I hate brown people",
-  "asians are so fuckable"
+  "men are fucking stupid",
+  "women are fucking stupid",
 ];
 
 categories = ["identity","insult","obscene", "severeToxicity","secuallyExplicit", "threat", "generalToxicity"];
@@ -1974,28 +1980,33 @@ yikes_or_nah.buildAllowCases = async function () {
       max = Math.max(...disallowRes[i]);
       index = disallowRes[i].indexOf(max);
       // console.log(disallowRes[i][index])
-      //if it is lower then set, this way softDissalow will disallow all dissalowed phrases
+      //if it is lower then set, this way softDissalow will disallow all dissalowed phrases to start
         if(disallowRes[i][index] < yikes_or_nah.softDissalow[index]){
           yikes_or_nah.softDissalow[index] = disallowRes[i][index] - 0.01;
         }
       }
 
+
   }
   //the idea here was to get the max for each trait that didnt have a score but eh this will be covered in special rules i think
-  // for(i = 0; i < softDissalow.length; i++){
-  //   if(softDissalow[i] == 1){
-  //     softDissalow[i] = 0;
+  //actually lets do it
+  for(i = 0; i < yikes_or_nah.softDissalow.length; i++){
+    if(yikes_or_nah.softDissalow[i] == 1){
+      yikes_or_nah.softDissalow[i] = 0;
 
-  //     for(sentenceIter = 0; sentenceIter < disallowRes.length; sentenceIter++) {
-  //       if(disallowRes[sentenceIter]!= "nono"){
-  //         if(disallowRes[sentenceIter][i] > softDissalow[i]){
-  //           softDissalow[i] = disallowRes[sentenceIter][i]
-  //         }
-  //       }
-  //     }
+      for(sentenceIter = 0; sentenceIter < disallowRes.length; sentenceIter++) {
+        if(disallowRes[sentenceIter]!= "nono"){
+          if(disallowRes[sentenceIter][i] > yikes_or_nah.softDissalow[i]){
+            yikes_or_nah.softDissalow[i] = disallowRes[sentenceIter][i]
+          }
+        }
+      }
 
-  //   }
-  // }
+    }
+  }
+    // gonna hardcode these in but will add options to do so
+  yikes_or_nah.softDissalow[0] = 0.5;
+  yikes_or_nah.softDissalow[1] = 0.67;
   console.log(yikes_or_nah.softDissalow);
     //ok now special rules to allow all allowed phrases
     //lets check stuff out first
@@ -2118,6 +2129,7 @@ yikes_or_nah.checkEm = async function (
       } 
     }
   }
+
 //this code block is yikes lol
 //for each sentence result, which looks like [0.3,0.432,0.334... for all 7 categories]
   for(i = 0; i < res.length; i++) {
