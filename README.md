@@ -1,11 +1,11 @@
 # yikesOrNah
-  customizable profanity/hate speach filter with several levels of checks, built on top of the 
+  customizable profanity/hate speech filter with several levels of checks, built on top of the 
     <a href="https://github.com/tensorflow/tfjs-models/tree/master/toxicity">
   tensorflow toxicity classifier
   </a>
 
   # WARNING
-  ## As this project aims to filter language containing hate speach, some files contain examples of extremely explicit hateful langauge
+  ## As this project aims to filter language containing hate speech, some files contain examples of extremely explicit hateful langauge
 
 The yikes Or Nah module was made with the goal of avoiding false positive matches, it isn't a perfect language filter by any means,
 but it does a decent job imo
@@ -13,18 +13,17 @@ but it does a decent job imo
 ## How It Works
 
 The toxicity classifier returns the certainty level that a sentence contains language in each of 7 categories:
-identity attack, insult, obscene, severe toxicity, secually explicit, threat, and general toxicity
+identity attack, insult, obscene, severe toxicity, sexually explicit, threat, and general toxicity
 
 But setting a threshold for a category isn't the best approach, as this leads to having false positives when making a filter to check if phrases should be allowed
 
-
-For example, a sentence you might want to not allow could rank low in the insult category but be extremely toxic and racist, and another sentence you might want to allow could rank very high in the insult category, but be non threatening, and not obscene. If you base your insult threshold off of the banned sentence, the second more sfw sentence wont make it through.
+For example, you might want to allow a phrase through that has a higher insult level than usual if it has a lower level of obscenity and racism
 
 YikesOrNah builds a set of custom rules from a set of allowed sentences, you should provide it with sentences that are at the threshold of what is allowed.
 
-Because of this there is a likelyhood for false negatives. But there is a seccondary hard check against a list banned words/phrases of your creation
+Because of this there is a likelihood for false negatives. But there is a secondary hard check against a list banned words/phrases of your creation
 
-The module also converts <a href="https://en.wikipedia.org/wiki/Homoglyph#:~:text=In%20orthography%20and%20typography%2C%20a,of%20characters%20sharing%20these%20properties."> homoglyphs </a> back to plain text which the toxicity classifier will work on, for example the classifier wont realise the phrase "1 h@t3 y0u" is an toxic phrase.
+The module also converts <a href="https://en.wikipedia.org/wiki/Homoglyph#:~:text=In%20orthography%20and%20typography%2C%20a,of%20characters%20sharing%20these%20properties."> homoglyphs </a> back to plain text which the toxicity classifier will work on, for example the classifier wont realize the phrase "1 h@t3 y0u" is an toxic phrase.
 
 
 ## How to use it
@@ -32,17 +31,17 @@ The module also converts <a href="https://en.wikipedia.org/wiki/Homoglyph#:~:tex
 open yikesOrNahBuildRules.html in an editor
 
 Fill the list yikes_or_nah.bannedWords with words and phrases that will be strictly banned
-note the entries will be white space sensitive, which you can use to avoid banning words that would contain the banned word in them, for example if you wanted to ban the word cat but not catastrphy,
+note the entries will be white space sensitive, which you can use to avoid banning words that would contain the banned word in them, for example if you wanted to ban the word cat but not catastrophe,
 you could add " cat " to the bannedWords list with a space before and after.
 
 Fill yikes_or_nah.testAllowedPhrases with phrases that might be considered toxic or insulting but are within what you want to allow, try to think of as many as you can
-for my application I wanted phrases with profanity/sexual content to be allowed as long as they weren't threatening or extremely explicit or contained any hate speach.
+for my application I wanted phrases with profanity/sexual content to be allowed as long as they weren't threatening or extremely explicit or contained any hate speech.
 
 Then fill yikes_or_nah.testDisallowedPhrases with some phrases you dont want to make it through, this is more just for testing and to see what kind of false negatives you get.
 
 You can view examples of these three lists in the examplefolder in the file exampleContent.txt but be warned the file contains examples the extremely explicit language this project aims to filter
 
-next open yikesOrNahBuildRules.html in your browser locally and it should generate a json file, place that along with yikesOrNah.js in your project direcotory on your server.
+next open yikesOrNahBuildRules.html in your browser locally and it should generate a json file, place that along with yikesOrNah.js in your project directory on your server.
 
 
 
