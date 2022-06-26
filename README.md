@@ -39,7 +39,7 @@ for my application I wanted phrases with profanity/sexual content to be allowed 
 
 Then fill yikes_or_nah.testDisallowedPhrases with some phrases you dont want to make it through, this is more just for testing and to see what kind of false negatives you get.
 
-You can view examples of these three lists in the examplefolder in the file exampleContent.txt but be warned the file contains examples the extremely explicit language this project aims to filter
+You can view examples of these three lists in the exampleContentForBuildingRules folder in the file exampleContent.txt but be warned the file contains examples the extremely explicit language this project aims to filter
 
 next open yikesOrNahBuildRules.html in your browser locally and it should generate a json file, place that along with yikesOrNah.js in your project directory on your server.
 
