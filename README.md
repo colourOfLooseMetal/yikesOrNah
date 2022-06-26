@@ -4,7 +4,7 @@
   tensorflow toxicity classifier
   </a>
 
-  #WARNING
-  ##As this project aims to filter language containing hate speach, the files contain examples of such language.
+  # WARNING
+  ## As this project aims to filter language containing hate speach, the files contain examples of such language.
 
 
