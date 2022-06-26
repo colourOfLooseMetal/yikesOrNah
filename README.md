@@ -7,7 +7,8 @@
   # WARNING
   ## As this project aims to filter language containing hate speach, some files contain examples of extremely explicit hateful langauge
 
-
+The yikes Or Nah module was made with the goal of avoiding false positive matches, it isn't a perfect language filter by any means,
+but it does a decent job imo
 
 ## How It Works
 
