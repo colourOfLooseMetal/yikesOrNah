@@ -11,16 +11,14 @@
     //phrases that will be strictly banned, note they are whitespace sensitive ex " bag " vs "bag" to avoid banning compound words or words that have those letters occur in them but are sfw
     yikes_or_nah.bannedWords = [
 
-    
-    ];
-
+  ];
 
 
     yikes_or_nah.testAllowedPhrases = [
-
+     
     ];
     yikes_or_nah.testDisallowedPhrases = [
-
+  
     ];
 
 
@@ -2038,7 +2036,7 @@
 
       //this code block is yikes lol
       //for each sentence result, which looks like [0.3,0.432,0.334... for all 7 categories]
-      // console.log(res)
+      console.log(res)
       for (i = 0; i < res.length; i++) {
         //false so far, so not yikes
         yikes = false;
