@@ -11,7 +11,7 @@
 
 ## How It Works
 
-The toxicity classifier returns the certainty level that a sentence contains language in each of 7 categories
+The toxicity classifier returns the certainty level that a sentence contains language in each of 7 categories:
 identity attack, insult, obscene, severe toxicity, secually explicit, threat, and general toxicity
 
 But setting a threshold for a category isn't the best approach, and leads to having many false positives when making a filter to check if phrases should be allowed
