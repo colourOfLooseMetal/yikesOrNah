@@ -1,0 +1,27 @@
+<html>
+
+<head>
+  <!-- <script scr="" type="text/javascript"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/toxicity"></script>
+  <script type='text/javascript' src='./yikesOrNah.js'></script>
+
+</head>
+
+<body></body>
+<script>
+  //example callback function
+  function handleResults(res) {
+    console.log(res);
+    //for i in res do something, 
+    console.log("this is the callback function")
+  }
+  //example usage
+  window.addEventListener('load', function() {
+    console.log("loaded");
+    yikes_or_nah.checkEm(["hello friend", "go kill yourself I hate you, piece of shit"], handleResults)
+})
+ 
+
+</script>
+</html>
