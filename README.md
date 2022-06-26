@@ -44,6 +44,11 @@ next open yikesOrNahBuildRules.html in your browser locally and it should genera
 
 
 
+To check sentences in your project use the yikes_or_nah.checkEm function, the parameters you can pass are:
+an array of sentences,
+optional callback function which will be passed the results which are an array of true/false (yikes/not yikes) for each sentence
+optional true or false to console log info about the sentences passed, false by default
+
 
 here is an example of what your project might look like using this module (make sure to load tensorflowjs and toxicity)
 ```
