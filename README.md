@@ -5,7 +5,7 @@
   </a>
 
   # WARNING
-  ## As this project aims to filter language containing hate speach, the files contain examples of such language.
+  ## As this project aims to filter language containing hate speach, some files contain examples of extremely explicit hateful langauge
 
 
 
