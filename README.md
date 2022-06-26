@@ -1,5 +1,5 @@
 # yikesOrNah
-  customizable profanity/hate speach filter with several levels of checks built on top of the 
+  customizable profanity/hate speach filter with several levels of checks, built on top of the 
     <a href="https://github.com/tensorflow/tfjs-models/tree/master/toxicity">
   tensorflow toxicity classifier
   </a>
@@ -14,13 +14,14 @@
 The toxicity classifier returns the certainty level that a sentence contains language in each of 7 categories:
 identity attack, insult, obscene, severe toxicity, secually explicit, threat, and general toxicity
 
-But setting a threshold for a category isn't the best approach, and leads to having many false positives when making a filter to check if phrases should be allowed
+But setting a threshold for a category isn't the best approach, as this leads to having false positives when making a filter to check if phrases should be allowed
 
-For example, a sentence could rank very high in the insult category, but be non threatening, and not obscene.
+
+For example, a sentence you might want to not allow could rank low in the insult category but be extremely toxic and racist, and another sentence you might want to allow could rank very high in the insult category, but be non threatening, and not obscene. If you base your insult threshold off of the banned sentence, the second more sfw sentence wont make it through.
 
 YikesOrNah builds a set of custom rules from a set of allowed sentences, you should provide it with sentences that are at the threshold of what is allowed.
 
-Because of this there is a likelyhood for false negatives. But there is a seccondary hard check against a dictionary for banned words/phrases of your creation
+Because of this there is a likelyhood for false negatives. But there is a seccondary hard check against a list banned words/phrases of your creation
 
 The module also converts <a href="https://en.wikipedia.org/wiki/Homoglyph#:~:text=In%20orthography%20and%20typography%2C%20a,of%20characters%20sharing%20these%20properties."> homoglyphs </a> back to plain text which the toxicity classifier will work on, for example the classifier wont realise the phrase "1 h@t3 y0u" is an toxic phrase.
 
