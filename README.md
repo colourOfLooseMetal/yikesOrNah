@@ -25,6 +25,9 @@ Because of this there is a likelihood for false negatives. But there is a second
 
 The module also converts <a href="https://en.wikipedia.org/wiki/Homoglyph#:~:text=In%20orthography%20and%20typography%2C%20a,of%20characters%20sharing%20these%20properties."> homoglyphs </a> back to plain text which the toxicity classifier will work on, for example the classifier wont realize the phrase "1 h@t3 y0u" is an toxic phrase.
 
+Hard checks are also done on the phrase with punctuation and spaces removed, and with multiple characters replaced with one, so if the word 'moist' was one of your banned words<br>
+'m.o.i.s.t' or 'm<o.i,s-t' or 'm .o. i,s t', or just 'm  o  i  s  t' or 'mmmmmmooooooiiiiiiiissssssttttt' wont make it through
+
 
 ## How to use it
 

@@ -36,7 +36,7 @@ function loadScript(url, callback)
       }
       return o1;
     }
-    console.log(yikes_or_nah);
+    // console.log(yikes_or_nah);
 
 
 
@@ -1859,10 +1859,27 @@ function loadScript(url, callback)
         el = Base64.decode(element);
         for (i = 0; i < sentences.length; i++) {
           s = " " +sentences[i]+ " ";
-          if (s.includes(el)) {
+          sNoPunct = s;
+          //these checks prevent things like, if the banned word was moist:
+          //m.o.i.s.t or m<o.i,s-t or m .o. i,s t, or just m  o  i  s  t
+          //or mmmmmmooooooiiiiiiiissssssttttt
+          //replace punction with spaces
+          sNoPunct = sNoPunct.replace(/[^\w\s\']|_/g, "")
+          .replace(/\s+/g, " ");//replace multiple spaces with one space
+          //remove multiple letters
+          sNoPunctNoRepeatedLetters = sNoPunct.replace(/(.)(?=.*\1)/g, "");
+          // console.log(sNoPunctNoRepeatedLetters)
+          sNoPunctNoSpace = sNoPunct;
+          sNoPunctNoSpaceRepeatedLetters = sNoPunctNoRepeatedLetters;
+          //remove all spaces
+          sNoPunctNoSpace = sNoPunctNoSpace.replace(/\s/g, '')
+          sNoPunctNoSpaceRepeatedLetters = sNoPunctNoSpaceRepeatedLetters.replace(/\s/g, '')
+          // console.log(sNoPunctNoSpace);
+          if (s.includes(el)||sNoPunct.includes(el)||sNoPunctNoSpace.includes(el)||sNoPunctNoRepeatedLetters.includes(el)||sNoPunctNoSpaceRepeatedLetters.includes(el)) {
             res[i] = "nono";
             if(consoleLog){
-            console.log(sentences[i], " contains a banned word/phrase, direct match");
+            console.log(sentences[i]);
+            console.log(": contains a banned word/phrase, direct match/n");
             }
           }
         }
@@ -1899,7 +1916,24 @@ function loadScript(url, callback)
       //this code block is yikes lol
       //for each sentence result, which looks like [0.3,0.432,0.334... for all 7 categories]
       if(consoleLog){
-        console.log(res)
+        // console.log(res);
+        
+        for(i=0; i < res.length; i += 1){
+          console.log("for the phrase '")
+          console.log(sentences[i])
+          console.log("'/n")
+          for(j=0; j < res[i].length; j += 1){
+            if(res[i] == "nono"){
+              // console.log("direct bad word match found/n");
+            }
+            else{
+            console.log(yikes_or_nah.categories[j]);
+            console.log(": ");
+            console.log(res[i][j]);
+            console.log("/n");
+            }
+          }
+        }
       }
       // 
       for (i = 0; i < res.length; i++) {
