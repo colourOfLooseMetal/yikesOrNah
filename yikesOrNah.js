@@ -1843,8 +1843,25 @@ function loadScript(url, callback)
     yikes_or_nah.checkEm = async function (
       sentences,
       callback = function (results) { },
+      extraStuff = [],
       consoleLog = false,
     ) {
+      if(!yikes_or_nah.hasOwnProperty('bannedWords')){
+                  //load json
+          fetch("./yikesOrNah.json")
+          .then(response => {
+            return response.json();
+          })
+          .then(jsondata => yikes_or_nah = jsonConcat(jsondata, yikes_or_nah));
+
+          function jsonConcat(o1, o2) {
+            for (var key in o2) {
+              o1[key] = o2[key];
+            }
+            return o1;
+          }
+          console.log(yikes_or_nah);
+      }
       const model = await toxicity.load();
 
       //replace homoglypgs
@@ -1921,16 +1938,16 @@ function loadScript(url, callback)
         for(i=0; i < res.length; i += 1){
           console.log("for the phrase '")
           console.log(sentences[i])
-          console.log("'/n")
+          console.log("\n")
           for(j=0; j < res[i].length; j += 1){
             if(res[i] == "nono"){
-              // console.log("direct bad word match found/n");
+              console.log("direct bad word match found/n");
             }
             else{
             console.log(yikes_or_nah.categories[j]);
             console.log(": ");
             console.log(res[i][j]);
-            console.log("/n");
+            console.log("\n");
             }
           }
         }
@@ -1985,7 +2002,7 @@ function loadScript(url, callback)
       }
 
 
-      callback(yikesArray);
+      callback(yikesArray, extraStuff);
       //the nn results look like this 
       /*
             
