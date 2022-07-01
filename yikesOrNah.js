@@ -2003,8 +2003,8 @@ var yikes_or_nah = (function () {
     typeof exports === "object" && typeof module !== "undefined"
       ? (module.exports = factory())
       : typeof define === "function" && define.amd
-      ? define(factory)
-      : // cf. https://github.com/dankogai/js-base64/issues/119
+        ? define(factory)
+        : // cf. https://github.com/dankogai/js-base64/issues/119
         (function () {
           // existing version for noConflict()
           var _Base64 = global.Base64;
@@ -2023,10 +2023,10 @@ var yikes_or_nah = (function () {
     typeof self !== "undefined"
       ? self
       : typeof window !== "undefined"
-      ? window
-      : typeof global !== "undefined"
-      ? global
-      : this,
+        ? window
+        : typeof global !== "undefined"
+          ? global
+          : this,
     function () {
       "use strict";
       /**
@@ -2069,13 +2069,13 @@ var yikes_or_nah = (function () {
         typeof Uint8Array.from === "function"
           ? Uint8Array.from.bind(Uint8Array)
           : function (it, fn) {
-              if (fn === void 0) {
-                fn = function (x) {
-                  return x;
-                };
-              }
-              return new Uint8Array(Array.prototype.slice.call(it, 0).map(fn));
-            };
+            if (fn === void 0) {
+              fn = function (x) {
+                return x;
+              };
+            }
+            return new Uint8Array(Array.prototype.slice.call(it, 0).map(fn));
+          };
       var _mkUriSafe = function (src) {
         return src.replace(/=/g, "").replace(/[+\/]/g, function (m0) {
           return m0 == "+" ? "-" : "_";
@@ -2095,7 +2095,7 @@ var yikes_or_nah = (function () {
           c2,
           asc = "";
         var pad = bin.length % 3;
-        for (var i = 0; i < bin.length; ) {
+        for (var i = 0; i < bin.length;) {
           if (
             (c0 = bin.charCodeAt(i++)) > 255 ||
             (c1 = bin.charCodeAt(i++)) > 255 ||
@@ -2118,26 +2118,26 @@ var yikes_or_nah = (function () {
        */
       var _btoa = _hasbtoa
         ? function (bin) {
-            return btoa(bin);
-          }
+          return btoa(bin);
+        }
         : _hasBuffer
-        ? function (bin) {
+          ? function (bin) {
             return Buffer.from(bin, "binary").toString("base64");
           }
-        : btoaPolyfill;
+          : btoaPolyfill;
       var _fromUint8Array = _hasBuffer
         ? function (u8a) {
-            return Buffer.from(u8a).toString("base64");
-          }
+          return Buffer.from(u8a).toString("base64");
+        }
         : function (u8a) {
-            // cf. https://stackoverflow.com/questions/12710001/how-to-convert-uint8-array-to-base64-encoded-string/12713326#12713326
-            var maxargs = 0x1000;
-            var strs = [];
-            for (var i = 0, l = u8a.length; i < l; i += maxargs) {
-              strs.push(_fromCC.apply(null, u8a.subarray(i, i + maxargs)));
-            }
-            return _btoa(strs.join(""));
-          };
+          // cf. https://stackoverflow.com/questions/12710001/how-to-convert-uint8-array-to-base64-encoded-string/12713326#12713326
+          var maxargs = 0x1000;
+          var strs = [];
+          for (var i = 0, l = u8a.length; i < l; i += maxargs) {
+            strs.push(_fromCC.apply(null, u8a.subarray(i, i + maxargs)));
+          }
+          return _btoa(strs.join(""));
+        };
       /**
        * converts a Uint8Array to a Base64 string.
        * @param {boolean} [urlsafe] URL-and-filename-safe a la RFC4648 §5
@@ -2160,8 +2160,8 @@ var yikes_or_nah = (function () {
           return cc < 0x80
             ? c
             : cc < 0x800
-            ? _fromCC(0xc0 | (cc >>> 6)) + _fromCC(0x80 | (cc & 0x3f))
-            : _fromCC(0xe0 | ((cc >>> 12) & 0x0f)) +
+              ? _fromCC(0xc0 | (cc >>> 6)) + _fromCC(0x80 | (cc & 0x3f))
+              : _fromCC(0xe0 | ((cc >>> 12) & 0x0f)) +
               _fromCC(0x80 | ((cc >>> 6) & 0x3f)) +
               _fromCC(0x80 | (cc & 0x3f));
         } else {
@@ -2189,13 +2189,13 @@ var yikes_or_nah = (function () {
       //
       var _encode = _hasBuffer
         ? function (s) {
-            return Buffer.from(s, "utf8").toString("base64");
-          }
+          return Buffer.from(s, "utf8").toString("base64");
+        }
         : _TE
-        ? function (s) {
+          ? function (s) {
             return _fromUint8Array(_TE.encode(s));
           }
-        : function (s) {
+          : function (s) {
             return _btoa(utob(s));
           };
       /**
@@ -2225,10 +2225,10 @@ var yikes_or_nah = (function () {
         switch (cccc.length) {
           case 4:
             var cp =
-                ((0x07 & cccc.charCodeAt(0)) << 18) |
-                ((0x3f & cccc.charCodeAt(1)) << 12) |
-                ((0x3f & cccc.charCodeAt(2)) << 6) |
-                (0x3f & cccc.charCodeAt(3)),
+              ((0x07 & cccc.charCodeAt(0)) << 18) |
+              ((0x3f & cccc.charCodeAt(1)) << 12) |
+              ((0x3f & cccc.charCodeAt(2)) << 6) |
+              (0x3f & cccc.charCodeAt(3)),
               offset = cp - 0x10000;
             return (
               _fromCC((offset >>> 10) + 0xd800) +
@@ -2237,8 +2237,8 @@ var yikes_or_nah = (function () {
           case 3:
             return _fromCC(
               ((0x0f & cccc.charCodeAt(0)) << 12) |
-                ((0x3f & cccc.charCodeAt(1)) << 6) |
-                (0x3f & cccc.charCodeAt(2))
+              ((0x3f & cccc.charCodeAt(1)) << 6) |
+              (0x3f & cccc.charCodeAt(2))
             );
           default:
             return _fromCC(
@@ -2266,7 +2266,7 @@ var yikes_or_nah = (function () {
           bin = "",
           r1,
           r2;
-        for (var i = 0; i < asc.length; ) {
+        for (var i = 0; i < asc.length;) {
           u24 =
             (b64tab[asc.charAt(i++)] << 18) |
             (b64tab[asc.charAt(i++)] << 12) |
@@ -2276,8 +2276,8 @@ var yikes_or_nah = (function () {
             r1 === 64
               ? _fromCC((u24 >> 16) & 255)
               : r2 === 64
-              ? _fromCC((u24 >> 16) & 255, (u24 >> 8) & 255)
-              : _fromCC((u24 >> 16) & 255, (u24 >> 8) & 255, u24 & 255);
+                ? _fromCC((u24 >> 16) & 255, (u24 >> 8) & 255)
+                : _fromCC((u24 >> 16) & 255, (u24 >> 8) & 255, u24 & 255);
         }
         return bin;
       };
@@ -2288,23 +2288,23 @@ var yikes_or_nah = (function () {
        */
       var _atob = _hasatob
         ? function (asc) {
-            return atob(_tidyB64(asc));
-          }
+          return atob(_tidyB64(asc));
+        }
         : _hasBuffer
-        ? function (asc) {
+          ? function (asc) {
             return Buffer.from(asc, "base64").toString("binary");
           }
-        : atobPolyfill;
+          : atobPolyfill;
       //
       var _toUint8Array = _hasBuffer
         ? function (a) {
-            return _U8Afrom(Buffer.from(a, "base64"));
-          }
+          return _U8Afrom(Buffer.from(a, "base64"));
+        }
         : function (a) {
-            return _U8Afrom(_atob(a), function (c) {
-              return c.charCodeAt(0);
-            });
-          };
+          return _U8Afrom(_atob(a), function (c) {
+            return c.charCodeAt(0);
+          });
+        };
       /**
        * converts a Base64 string to a Uint8Array.
        */
@@ -2314,13 +2314,13 @@ var yikes_or_nah = (function () {
       //
       var _decode = _hasBuffer
         ? function (a) {
-            return Buffer.from(a, "base64").toString("utf8");
-          }
+          return Buffer.from(a, "base64").toString("utf8");
+        }
         : _TD
-        ? function (a) {
+          ? function (a) {
             return _TD.decode(_toUint8Array(a));
           }
-        : function (a) {
+          : function (a) {
             return btou(_atob(a));
           };
       var _unURI = function (a) {
@@ -2459,7 +2459,7 @@ var yikes_or_nah = (function () {
 
   yikes_or_nah.checkEm = async function (
     sentences,
-    callback = function (results) {},
+    callback = function (results) { },
     extraStuff = [],
     consoleLog = false
   ) {
@@ -2491,175 +2491,224 @@ var yikes_or_nah = (function () {
 
     res = new Array(sentences.length).fill(0);
 
+    function occurrences(string, subString, allowOverlapping = true) {
+
+      string += "";
+      subString += "";
+      if (subString.length <= 0) return (string.length + 1);
+
+      var n = 0,
+        pos = 0,
+        step = allowOverlapping ? 1 : subString.length;
+
+      while (true) {
+        pos = string.indexOf(subString, pos);
+        if (pos >= 0) {
+          ++n;
+          pos += step;
+        } else break;
+      }
+      return n;
+    }
+
     // .replace(/[^\p{L}\p{N}\p{P}\p{Z}^$\n]/gu, '');//remove emoji//nah this is covered
-    //check for big nonos
-    const contains = yikes_or_nah.bannedWords.some((element) => {
-      el = Base64.decode(element);
-      for (i = 0; i < sentences.length; i++) {
-        s = " " + sentences[i] + " ";
-        sNoPunct = s;
-        //these checks prevent things like, if the banned word was moist:
-        //m.o.i.s.t or m<o.i,s-t or m .o. i,s t, or just m  o  i  s  t
-        //or mmmmmmooooooiiiiiiiissssssttttt
-        //replace punction with spaces
-        sNoPunct = sNoPunct.replace(/[^\w\s\']|_/g, "").replace(/\s+/g, " "); //replace multiple spaces with one space
-        //remove multiple letters
-        sNoPunctNoRepeatedLetters = sNoPunct.replace(/(.)(?=.*\1)/g, "");
-        // console.log(sNoPunctNoRepeatedLetters)
-        sNoPunctNoSpace = sNoPunct;
-        sNoPunctNoSpaceRepeatedLetters = sNoPunctNoRepeatedLetters;
-        //remove all spaces
-        sNoPunctNoSpace = sNoPunctNoSpace.replace(/\s/g, "");
-        sNoPunctNoSpaceRepeatedLetters = sNoPunctNoSpaceRepeatedLetters.replace(
-          /\s/g,
-          ""
-        );
-        // console.log(sNoPunctNoSpace);
-        if (
-          s.includes(el) ||
-          sNoPunct.includes(el) ||
-          sNoPunctNoSpace.includes(el) ||
-          sNoPunctNoRepeatedLetters.includes(el) ||
-          sNoPunctNoSpaceRepeatedLetters.includes(el)
-          
-        ) {
+    //check for big nonos yikes_or_nah.bannedWordsSeverity;
+    for (i = 0; i < sentences.length; i++) {
+      s = " " + sentences[i] + " ";
+      sNoPunct = s;
+      //these checks prevent things like, if the banned word was moist:
+      //m.o.i.s.t or m<o.i,s-t or m .o. i,s t, or just m  o  i  s  t
+      //or mmmmmmooooooiiiiiiiissssssttttt
+      //replace punction with spaces
+      sNoPunct = sNoPunct.replace(/[^\w\s\']|_/g, "").replace(/\s+/g, " "); //replace multiple spaces with one space
+      //remove multiple letters
+      sNoPunctNoRepeatedLetters = sNoPunct.replace(/(.)\1+/g,'$1');
+      // console.log(sNoPunctNoRepeatedLetters)
+      sNoPunctNoSpace = sNoPunct;
+      sNoPunctNoSpaceRepeatedLetters = sNoPunctNoRepeatedLetters;
+      //remove all spaces
+      sNoPunctNoSpace = sNoPunctNoSpace.replace(/\s/g, "");
+      sNoPunctNoSpaceRepeatedLetters = sNoPunctNoSpaceRepeatedLetters.replace(
+        /\s/g,
+        ""
+      );
+      // console.log(sNoPunctNoSpace);
+      
+      stringsToCheck = [s, sNoPunct, sNoPunctNoSpace, sNoPunctNoRepeatedLetters, sNoPunctNoSpaceRepeatedLetters];
+
+      directMatchSeverity = 0;
+      for (bw = 0; bw < yikes_or_nah.bannedWords.length; bw++) {
+        el = Base64.decode(yikes_or_nah.bannedWords[bw]);
+
+        //finding a direct match in s is more telling than a match in snospaces which could be a false positive
+        toleranceStrengthForStrings = [1.7, 1.4, 0.4, 0.3, 0.2];
+        for (stc = 0; stc < stringsToCheck.length; stc++) {
+          badWordCount = occurrences(stringsToCheck[stc], el);
+          if (badWordCount > 0) {
+            //ok bare with me here, i know we do 0-4 for severity but i wanted to scale that down, so in reality we have 
+            //stregth for string, lets say its nopuct so like 1 * bad word cound, and say we have it once, the severity would be dividing by 2/6, 3/6 4/6 5/6 6/6
+            //or .33 - 1 a bit smaller of a scale, play around with it if you
+            directMatchSeverity += (toleranceStrengthForStrings[stc] * badWordCount) / ((yikes_or_nah.bannedWordsSeverity[bw]+2)/6);
+            if (consoleLog) {
+              position = stringsToCheck[stc].indexOf(el);
+              console.log("direct match for banned word '" + el + "' found " + String(badWordCount) + " times");
+              console.log("bannedWordScore=");
+              console.log(String(directMatchSeverity));
+              console.log("/n");
+              // console.log(stc);
+              // console.log(Math.max(position-4,0), Math.min(position+el.length+4, stringsToCheck[0].length-1));
+              console.log("/n");
+              if (stc != 0) {
+                posInStc0 = position / stringsToCheck[stc].length;
+                posInStc0 = Math.round(posInStc0 * stringsToCheck[0].length);
+                console.log(stringsToCheck[0].slice(Math.max(posInStc0 - 60, 0), Math.min(posInStc0 + el.length + 30, stringsToCheck[0].length - 1)))
+              }
+              console.log(stringsToCheck[stc].slice(Math.max(position - 10, 0), Math.min(position + el.length + 10, stringsToCheck[stc].length - 1)))
+            }
+
+          }
+        }
+      }
+      if (consoleLog) {
+      console.log("/n");
+      //our string length scale will be against no punct or repeated letters sice punctuation dosent come up much, neither do repeated letters
+      console.log("bannedWordScore="+String(directMatchSeverity)+"  length/10="+String(Math.pow(sNoPunctNoRepeatedLetters.length, 1.026) / 18));
+      console.log("/n");
+      }
+        if (directMatchSeverity > (Math.pow(sNoPunctNoRepeatedLetters.length, 1.026) / 18)) {
           res[i] = "nono";
-          if (consoleLog) {
+          // if (consoleLog) {
+          //   console.log(sentences[i]);
+          //   console.log(": contains a banned word/phrase, direct match/n");
+          // }
+        }
+      }
+
+        for (j = 0; j < sentences.length; j++) {
+          if (res[j] != "nono") {
+            res[j] = [];
+          }
+        }
+
+        // console.log(sentences);
+        predictions = await model.classify(sentences);
+
+        // `predictions` is an array of objects, one for each prediction head,
+        // that contains the raw probabilities for each input along with the
+        // final prediction in `match` (either `true` or `false`).
+        // If neither prediction exceeds the threshold, `match` is `null`.
+        yikesArray = new Array(sentences.length).fill(false);
+
+        //predictions is 0-7 for each and res res object has the number for each sentence
+        for (i = 0; i < predictions.length; i++) {
+          for (j = 0; j < sentences.length; j++) {
+            if (res[j] != "nono") {
+              res[j].push(predictions[i].results[j].probabilities[1]);
+            }
+          }
+        }
+
+        //this code block is yikes lol
+        //for each sentence result, which looks like [0.3,0.432,0.334... for all 7 categories]
+        if (consoleLog) {
+          // console.log(res);
+
+          for (i = 0; i < res.length; i += 1) {
+            console.log("for the phrase '");
             console.log(sentences[i]);
-            console.log(": contains a banned word/phrase, direct match/n");
+            console.log("/n");
+            for (j = 0; j < res[i].length; j += 1) {
+              if (res[i] == "nono") {
+                console.log("direct bad word match found/n");
+              } else {
+                console.log(yikes_or_nah.categories[j]);
+                console.log(": ");
+                console.log(res[i][j]);
+                console.log("/n");
+              }
+            }
           }
         }
-      }
-      return false;
-    });
-    if (contains) {
-    }
-
-    for (j = 0; j < sentences.length; j++) {
-      if (res[j] != "nono") {
-        res[j] = [];
-      }
-    }
-
-    // console.log(sentences);
-    predictions = await model.classify(sentences);
-
-    // `predictions` is an array of objects, one for each prediction head,
-    // that contains the raw probabilities for each input along with the
-    // final prediction in `match` (either `true` or `false`).
-    // If neither prediction exceeds the threshold, `match` is `null`.
-    yikesArray = new Array(sentences.length).fill(false);
-
-    //predictions is 0-7 for each and res res object has the number for each sentence
-    for (i = 0; i < predictions.length; i++) {
-      for (j = 0; j < sentences.length; j++) {
-        if (res[j] != "nono") {
-          res[j].push(predictions[i].results[j].probabilities[1]);
-        }
-      }
-    }
-
-    //this code block is yikes lol
-    //for each sentence result, which looks like [0.3,0.432,0.334... for all 7 categories]
-    if (consoleLog) {
-      // console.log(res);
-
-      for (i = 0; i < res.length; i += 1) {
-        console.log("for the phrase '");
-        console.log(sentences[i]);
-        console.log("\n");
-        for (j = 0; j < res[i].length; j += 1) {
-          if (res[i] == "nono") {
-            console.log("direct bad word match found/n");
-          } else {
-            console.log(yikes_or_nah.categories[j]);
-            console.log(": ");
-            console.log(res[i][j]);
-            console.log("\n");
-          }
-        }
-      }
-    }
-    //
-    for (i = 0; i < res.length; i++) {
-      //if it contained a banned phrase we dont check, just skip to set to yikes true below
-      if (res[i] != "nono") {
-        //false so far, so not yikes
-        yikes = false;
-        //for each number in the res
-        for (j = 0; j < res[i].length; j++) {
-          //if the number is bigger than the soft dissalow for that category
-          if (res[i][j] > yikes_or_nah.softDissalow[j]) {
-            //yikes maybe is true
-            yikes = true;
-            //but for each special rule in that category (j)
-            for (k = 0; k < yikes_or_nah.specialRules[j].length; k++) {
-              //we have a chance to be ok if any have a full match
-              maybeNotYikes = true;
-              //so again for each number in the result
-              for (l = 0; l < res[i].length; l++) {
-                //compare to each number in the special rule categories rule (j k) would be [0.3,0.432,0.334... for all 7 categories]
-                //if any are over, then we do not meet this special rule
-                if (res[i][l] > yikes_or_nah.specialRules[j][k][l]) {
-                  maybeNotYikes = false;
-                  // console.log(yikes_or_nah.tweakAllowPhrases[i]);
-                  // console.log(yikes_or_nah.specialRules[j][k]);
-                  // console.log(j,k,l);
+        //
+        for (i = 0; i < res.length; i++) {
+          //if it contained a banned phrase we dont check, just skip to set to yikes true below
+          if (res[i] != "nono") {
+            //false so far, so not yikes
+            yikes = false;
+            //for each number in the res
+            for (j = 0; j < res[i].length; j++) {
+              //if the number is bigger than the soft dissalow for that category
+              if (res[i][j] > yikes_or_nah.softDissalow[j]) {
+                //yikes maybe is true
+                yikes = true;
+                //but for each special rule in that category (j)
+                for (k = 0; k < yikes_or_nah.specialRules[j].length; k++) {
+                  //we have a chance to be ok if any have a full match
+                  maybeNotYikes = true;
+                  //so again for each number in the result
+                  for (l = 0; l < res[i].length; l++) {
+                    //compare to each number in the special rule categories rule (j k) would be [0.3,0.432,0.334... for all 7 categories]
+                    //if any are over, then we do not meet this special rule
+                    if (res[i][l] > yikes_or_nah.specialRules[j][k][l]) {
+                      maybeNotYikes = false;
+                      // console.log(yikes_or_nah.tweakAllowPhrases[i]);
+                      // console.log(yikes_or_nah.specialRules[j][k]);
+                      // console.log(j,k,l);
+                      break;
+                    }
+                    //but if we get through all 7 for any of them
+                  }
+                  //with maybe not yikes still true
+                  if (maybeNotYikes) {
+                    yikes = false;
+                    break;
+                  }
+                }
+                //break again to stop further checks in other softdissalow categories
+                if (maybeNotYikes) {
+                  yikes = false;
                   break;
                 }
-                //but if we get through all 7 for any of them
-              }
-              //with maybe not yikes still true
-              if (maybeNotYikes) {
-                yikes = false;
-                break;
               }
             }
-            //break again to stop further checks in other softdissalow categories
-            if (maybeNotYikes) {
-              yikes = false;
-              break;
-            }
+          } else {
+            yikes = true;
           }
+          yikesArray[i] = yikes;
         }
-      } else {
-        yikes = true;
-      }
-      yikesArray[i] = yikes;
-    }
 
-    callback(yikesArray, extraStuff);
-    //the nn results look like this
-    /*
-            
-            {
-              "label": "identity_attack",
-              "results": [{
-                //                [probability it is ok, probs its yikes(we just use this)]
-                "probabilities": [0.9659664034843445, 0.03403361141681671],
-                "match": false    //we dont use this, create special rules instead 
-              }]
-            },
-            {
-              "label": "insult",
-              "results": [{
-                "probabilities": [0.08124706149101257, 0.9187529683113098],
-                "match": true
-              }]
-            },
-            ...
-            ..........
-            ........
-            ........
-             */
-  };
+        callback(yikesArray, extraStuff);
+        //the nn results look like this
+        /*
+                
+                {
+                  "label": "identity_attack",
+                  "results": [{
+                    //                [probability it is ok, probs its yikes(we just use this)]
+                    "probabilities": [0.9659664034843445, 0.03403361141681671],
+                    "match": false    //we dont use this, create special rules instead 
+                  }]
+                },
+                {
+                  "label": "insult",
+                  "results": [{
+                    "probabilities": [0.08124706149101257, 0.9187529683113098],
+                    "match": true
+                  }]
+                },
+                ...
+                ..........
+                ........
+                ........
+                 */
+      };
 
-  //example callback function
-  // function handleResults(res) {
-  //   console.log(res);
-  //   //for i in res do something,
-  // }
-  //example usage
-  // yikes_or_nah.checkEm(yikes_or_nah.tweakAllowPhrases, handleResults)
-  return yikes_or_nah;
-})();
+      //example callback function
+      // function handleResults(res) {
+      //   console.log(res);
+      //   //for i in res do something,
+      // }
+      //example usage
+      // yikes_or_nah.checkEm(yikes_or_nah.tweakAllowPhrases, handleResults)
+      return yikes_or_nah;
+    }) ();

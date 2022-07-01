@@ -9,17 +9,68 @@
     };
 
     //phrases that will be strictly banned, note they are whitespace sensitive ex " bag " vs "bag" to avoid banning compound words or words that have those letters occur in them but are sfw
-    yikes_or_nah.bannedWords = [
-
-  ];
+    yikes_or_nah.bannedWordsAndSeverity = ["fuck you in the", 0, "fagfag", 0, "faget",2, "faggit",1, "faggot",2, "fagit",2, "fags",2, "fagz",2, "faig",3, "faigs",3, "nigga",1, "niggas",1, "nigger",0, "nigur",2, "niiger",2, "niigr",2, "negres",2, "negress",2, "negro",2, "negroes",1, "negroid",2, "negros",2, " nig ",1, "nignig",1, "nigar",1, "nigars",1,"niga",2, "niger",1, "nigers",0, "nigette",2, "nigettes",2, " nigg ",1, "nigga",1, "nigger",0, "niggling",1, "nigglings",1, "niggor",1, "niggr",1, "niglet",1, "nignog",1, "nigor",2, " nigr ",2, " nigra ",3, "nigras",2, "nigre",2, "nigres",2, "nigress",2, " nigs ",1, "nlgger",2, "nlggor",3, " fag ",1, "fagg",1, "fags",1, "faget",1, "fagh",2, "fagit",1, "fagmouth",0, "fagot",0, "faegot",1, "neger",2, "ngga",3, "ngger",3, "nigga",1, "niger",1, "niglet",0, "niguh",1, "nig nog",0, "nignog",0, "nigga",1, "niggah",2, "niggas",1, "niggaz",1, "nigger",0, "niggers ",0, "niglet",0, "raping",0, " rape ",1, "raperape",0, "whore",3, " kyke ",2, " kike ",2];
 
 
-    yikes_or_nah.testAllowedPhrases = [
-     
-    ];
-    yikes_or_nah.testDisallowedPhrases = [
-  
-    ];
+
+yikes_or_nah.testAllowedPhrases = [
+  "fuck yeah that's the good shit",
+  "that's the good shit",
+  "I like that shit",
+  "that shit is nice",
+  "good shit, good shit",
+  "fuck that is nice",
+  "awhhhhh fuck no, that sucks",
+  "fuck yeah bud",
+  "fuck no bud",
+  "lets do butt stuff",
+  "you are so dumb",
+  "fuck me gently",
+  "that is some good shit if i do say so myself",
+  "I like to fuck",
+  "we should fuck",
+  "can I fuck you?",
+  "can you fuck me?",
+  "eat my ass",
+  "try finger in butt hole",
+  "eat my ass",
+  "I love asians",
+  "I love black people",
+  "indians cook well",
+  "blood and gore",
+  "you are dumb",
+  "get good noob",
+  "I'm going to slap you silly",
+  "I'm going to find you",
+  "I'm gonna slap your ass",
+  "This is a threat",
+  "gay people are gay",
+  "black people are black"
+];
+yikes_or_nah.testDisallowedPhrases = [
+  "I fucking hate you",
+  "fuck you",
+  "you piece of shit",
+  "I'm going to kick your ass",
+  "you fucking dead",
+  "I'll kill you",
+  "go kill yourself",
+  "you're a cunt",
+  "you are a moron",
+  "you are a stupid whore",
+  "you are so fucking stupid",
+  "you are a fag",
+  "fuck fuck shitbag fuck fuck",
+  "fucking nigger",
+  "nigger",
+  "I'll rape you",
+  "I hate jews",
+  "I hate fags",
+  "I hate brown people",
+  "men are fucking stupid",
+  "women are fucking stupid"
+];
+
 
 
 
@@ -1833,14 +1884,33 @@
     yikes_or_nah.categories = ["identity", "insult", "obscene", "severeToxicity", "secuallyExplicit", "threat", "generalToxicity"];
     yikes_or_nah.specialRules = [[], [], [], [], [], [], []];
     yikes_or_nah.softDissalow = [];
+    function isInt(value) {
+  var x;
+  return isNaN(value) ? !1 : (x = parseFloat(value), (0 | x) === x);
+}
     yikes_or_nah.buildAllowCases = async function () {
-
-      for (i = 0; i < yikes_or_nah.bannedWords.length; i++) {
-        bannedWordBase64 = Base64.encodeURL(yikes_or_nah.bannedWords[i]);
+      iter = 0;
+      yikes_or_nah.bannedWords = [];
+      yikes_or_nah.bannedWordsSeverity = [];
+      for (i = 0; i < yikes_or_nah.bannedWordsAndSeverity.length; i+=2) {
+        bannedWordBase64 = Base64.encodeURL(yikes_or_nah.bannedWordsAndSeverity[i]);
         // console.log(bannedWordBase64);
-        yikes_or_nah.bannedWords[i] = bannedWordBase64;
+        yikes_or_nah.bannedWords[iter] = bannedWordBase64;
+        yikes_or_nah.bannedWordsSeverity[iter] = yikes_or_nah.bannedWordsAndSeverity[i+1];
+        if(isInt(yikes_or_nah.bannedWordsAndSeverity[i+1]) == false || typeof(yikes_or_nah.bannedWordsAndSeverity[i]) !== 'string'){
+          console.log(yikes_or_nah.bannedWordsAndSeverity[i+1]+ " should be a number 0-4");
+          console.log(yikes_or_nah.bannedWordsAndSeverity[i]+ " should be a banned phrase enclosed in quotes")
+          console.log("error, one of the banned words or severities is out of place");
+          return(0)
+        }
+        if(yikes_or_nah.bannedWordsAndSeverity[i+1] > 4 || yikes_or_nah.bannedWordsAndSeverity[i+1] < 0){
+          console.log("error, make sure severity is betweeen 0-4");
+          return(0)
+        }
+        iter+= 1
       }
-      // console.log(yikes_or_nah.bannedWords);
+      console.log(yikes_or_nah.bannedWordsSeverity);
+      console.log(yikes_or_nah.bannedWords);
 
       // allowfalsePositives = false;
       disallowedRes = [];
@@ -1921,6 +1991,7 @@
       // console.log(allowPhrasesSpecRuleDict);
 
       yikes_or_nah_DL_Object = {}
+      yikes_or_nah_DL_Object.bannedWordsSeverity = yikes_or_nah.bannedWordsSeverity;
       yikes_or_nah_DL_Object.bannedWords = yikes_or_nah.bannedWords;
       yikes_or_nah_DL_Object.specialRules = yikes_or_nah.specialRules;
       yikes_or_nah_DL_Object.softDissalow = yikes_or_nah.softDissalow;

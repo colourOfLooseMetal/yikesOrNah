@@ -30,20 +30,32 @@ Hard checks are also done on the phrase with punctuation and spaces removed, and
 <br />
 letter emojis are included in the homoglyphs, and checks are done with non homoglyph emojis removed, so 
 🅼🅾🅸🆂🆃 and m👏o👏i👏s👏t also wont make it through
+<br />
+
+These hard checks are great but they do lead to some false positives, for example: If the banned word was 'moist' again <br />
+and the phrase to check was "the demo is today", with no spaces that is "thedemoistoday" which contains the word moist.
+
+To avoid false positives like this, a threshold is created relative to the length of the string, and checks of modified versions of the string (like without spaces or punctuation) wont count as much towards that threshold as a check on the normal string.
+
+Also words in the banned list directory are given a severity level from 0 being the most severe to 4 being partially allowable, strange spellings of banned words could have a lower severity, 'moyst' for example.
 
 
 ## How to use it
 
+download this repository
+
 open yikesOrNahBuildRules.html in an editor
 
-Fill the list yikes_or_nah.bannedWords with words and phrases that will be strictly banned
+Fill the list yikes_or_nah.bannedWords with words and phrases that will be strictly banned,<br />
+fill the list with a string enclosed in quotes followed by an int 0-4 for it's severity,<br />
+for example yikes_or_nah.bannedWordsAndSeverity = ["moist", 0, "moyst", 3, "moiest", 4];<br />
 note the entries will be white space sensitive, which you can use to avoid banning words that would contain the banned word in them, for example if you wanted to ban the word cat but not catastrophe,
 you could add " cat " to the bannedWords list with a space before and after.
 
 Fill yikes_or_nah.testAllowedPhrases with phrases that might be considered toxic or insulting but are within what you want to allow, try to think of as many as you can
 for my application I wanted phrases with profanity/sexual content to be allowed as long as they weren't threatening or extremely explicit or contained any hate speech.
 
-Then fill yikes_or_nah.testDisallowedPhrases with some phrases you dont want to make it through, this is more just for testing and to see what kind of false negatives you get.
+Then fill yikes_or_nah.testDisallowedPhrases with some phrases you dont want to make it through, this is more just for testing and to see what kind of false negatives you get. But they will also be used to set thresholds at which checks are preformed.
 
 You can view examples of these three lists in the exampleContentForBuildingRules folder in the file exampleContent.txt but be warned the file contains examples the extremely explicit language this project aims to filter
 
