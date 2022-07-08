@@ -2447,6 +2447,13 @@ var yikes_or_nah = (function () {
   //   this.splice(index, 0, item);
   // };
 
+  String.prototype.replaceAllCaseInsensitive = function(strReplace, strWith) {
+    // See http://stackoverflow.com/a/3561711/556609
+    var esc = strReplace.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    var reg = new RegExp(esc, 'ig');
+    return this.replace(reg, strWith);
+};
+
   yikes_or_nah.categories = [
     "identity",
     "insult",
@@ -2514,7 +2521,10 @@ var yikes_or_nah = (function () {
     // .replace(/[^\p{L}\p{N}\p{P}\p{Z}^$\n]/gu, '');//remove emoji//nah this is covered
     //check for big nonos yikes_or_nah.bannedWordsSeverity;
     for (i = 0; i < sentences.length; i++) {
+      
       s = " " + sentences[i] + " ";
+      s = s.replaceAllCaseInsensitive(' nigeria ', ' Africa '); //the Connor clause
+      // console.log(s);
       sNoPunct = s;
       //these checks prevent things like, if the banned word was moist:
       //m.o.i.s.t or m<o.i,s-t or m .o. i,s t, or just m  o  i  s  t
@@ -2541,7 +2551,7 @@ var yikes_or_nah = (function () {
         el = Base64.decode(yikes_or_nah.bannedWords[bw]);
 
         //finding a direct match in s is more telling than a match in snospaces which could be a false positive
-        toleranceStrengthForStrings = [1.7, 1.4, 0.4, 0.3, 0.2];
+        toleranceStrengthForStrings = [3.7, 1.9, 0.45, 0.3, 0.2];
         for (stc = 0; stc < stringsToCheck.length; stc++) {
           badWordCount = occurrences(stringsToCheck[stc], el);
           if (badWordCount > 0) {
@@ -2572,7 +2582,7 @@ var yikes_or_nah = (function () {
       if (consoleLog) {
       console.log("/n");
       //our string length scale will be against no punct or repeated letters sice punctuation dosent come up much, neither do repeated letters
-      console.log("bannedWordScore="+String(directMatchSeverity)+"  length/10="+String(Math.pow(sNoPunctNoRepeatedLetters.length, 1.026) / 18));
+      console.log("bannedWordScore="+String(directMatchSeverity)+"  lengthThres="+String(Math.pow(sNoPunctNoRepeatedLetters.length, 1.026) / 18));
       console.log("/n");
       }
         if (directMatchSeverity > (Math.pow(sNoPunctNoRepeatedLetters.length, 1.026) / 18)) {
