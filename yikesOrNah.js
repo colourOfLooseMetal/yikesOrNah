@@ -2468,7 +2468,8 @@ var yikes_or_nah = (function () {
     sentences,
     callback = function (results) { },
     extraStuff = [],
-    consoleLog = false
+    consoleLog = false,
+    useNN = true
   ) {
     if (!yikes_or_nah.hasOwnProperty("bannedWords")) {
       //load json
@@ -2600,24 +2601,26 @@ var yikes_or_nah = (function () {
           }
         }
 
+        if(useNN){
         // console.log(sentences);
         predictions = await model.classify(sentences);
-
+        }
         // `predictions` is an array of objects, one for each prediction head,
         // that contains the raw probabilities for each input along with the
         // final prediction in `match` (either `true` or `false`).
         // If neither prediction exceeds the threshold, `match` is `null`.
         yikesArray = new Array(sentences.length).fill(false);
 
-        //predictions is 0-7 for each and res res object has the number for each sentence
-        for (i = 0; i < predictions.length; i++) {
-          for (j = 0; j < sentences.length; j++) {
-            if (res[j] != "nono") {
-              res[j].push(predictions[i].results[j].probabilities[1]);
+        if(useNN){
+          //predictions is 0-7 for each and res res object has the number for each sentence
+          for (i = 0; i < predictions.length; i++) {
+            for (j = 0; j < sentences.length; j++) {
+              if (res[j] != "nono") {
+                res[j].push(predictions[i].results[j].probabilities[1]);
+              }
             }
           }
         }
-
         //this code block is yikes lol
         //for each sentence result, which looks like [0.3,0.432,0.334... for all 7 categories]
         if (consoleLog) {
@@ -2631,61 +2634,66 @@ var yikes_or_nah = (function () {
               if (res[i] == "nono") {
                 console.log("direct bad word match found/n");
               } else {
+                if(useNN){
                 console.log(yikes_or_nah.categories[j]);
                 console.log(": ");
                 console.log(res[i][j]);
                 console.log("/n");
+                }
               }
             }
           }
         }
-        //
-        for (i = 0; i < res.length; i++) {
-          //if it contained a banned phrase we dont check, just skip to set to yikes true below
-          if (res[i] != "nono") {
-            //false so far, so not yikes
-            yikes = false;
-            //for each number in the res
-            for (j = 0; j < res[i].length; j++) {
-              //if the number is bigger than the soft dissalow for that category
-              if (res[i][j] > yikes_or_nah.softDissalow[j]) {
-                //yikes maybe is true
-                yikes = true;
-                //but for each special rule in that category (j)
-                for (k = 0; k < yikes_or_nah.specialRules[j].length; k++) {
-                  //we have a chance to be ok if any have a full match
-                  maybeNotYikes = true;
-                  //so again for each number in the result
-                  for (l = 0; l < res[i].length; l++) {
-                    //compare to each number in the special rule categories rule (j k) would be [0.3,0.432,0.334... for all 7 categories]
-                    //if any are over, then we do not meet this special rule
-                    if (res[i][l] > yikes_or_nah.specialRules[j][k][l]) {
-                      maybeNotYikes = false;
-                      // console.log(yikes_or_nah.tweakAllowPhrases[i]);
-                      // console.log(yikes_or_nah.specialRules[j][k]);
-                      // console.log(j,k,l);
+        
+          //
+          for (i = 0; i < res.length; i++) {
+            //if it contained a banned phrase we dont check, just skip to set to yikes true below
+            if (res[i] != "nono") {
+              //false so far, so not yikes
+              yikes = false;
+              if(useNN){
+                //for each number in the res
+                for (j = 0; j < res[i].length; j++) {
+                  //if the number is bigger than the soft dissalow for that category
+                  if (res[i][j] > yikes_or_nah.softDissalow[j]) {
+                    //yikes maybe is true
+                    yikes = true;
+                    //but for each special rule in that category (j)
+                    for (k = 0; k < yikes_or_nah.specialRules[j].length; k++) {
+                      //we have a chance to be ok if any have a full match
+                      maybeNotYikes = true;
+                      //so again for each number in the result
+                      for (l = 0; l < res[i].length; l++) {
+                        //compare to each number in the special rule categories rule (j k) would be [0.3,0.432,0.334... for all 7 categories]
+                        //if any are over, then we do not meet this special rule
+                        if (res[i][l] > yikes_or_nah.specialRules[j][k][l]) {
+                          maybeNotYikes = false;
+                          // console.log(yikes_or_nah.tweakAllowPhrases[i]);
+                          // console.log(yikes_or_nah.specialRules[j][k]);
+                          // console.log(j,k,l);
+                          break;
+                        }
+                        //but if we get through all 7 for any of them
+                      }
+                      //with maybe not yikes still true
+                      if (maybeNotYikes) {
+                        yikes = false;
+                        break;
+                      }
+                    }
+                    //break again to stop further checks in other softdissalow categories
+                    if (maybeNotYikes) {
+                      yikes = false;
                       break;
                     }
-                    //but if we get through all 7 for any of them
                   }
-                  //with maybe not yikes still true
-                  if (maybeNotYikes) {
-                    yikes = false;
-                    break;
-                  }
-                }
-                //break again to stop further checks in other softdissalow categories
-                if (maybeNotYikes) {
-                  yikes = false;
-                  break;
                 }
               }
+            } else {
+              yikes = true;
             }
-          } else {
-            yikes = true;
+            yikesArray[i] = yikes;
           }
-          yikesArray[i] = yikes;
-        }
 
         callback(yikesArray, extraStuff);
         //the nn results look like this

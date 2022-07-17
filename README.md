@@ -68,6 +68,7 @@ an array of sentences,<br />
 optional callback function which will be passed the results which are an array of true/false (yikes/not yikes) for each sentence,<br />
 optional array of extra info you can fill with anything that will be passed to the callback function<br />
 optional true or false to console log info about the sentences passed, false by default<br />
+optional true or false to use the neural net part of the code, it takes a few seconds to run, true by default<br />
 
 
 here is an example of what your project might look like using this module (make sure to load tensorflowjs and toxicity)
